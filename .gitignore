@@ -1,0 +1,13 @@
+#à verifier
+.dea
+db.sqlite3
+media/
+*.pyc
+###
+.env
+
+env_cha_c/
+__pycache__/
+*.pyo
+.DS_Store
+*.log

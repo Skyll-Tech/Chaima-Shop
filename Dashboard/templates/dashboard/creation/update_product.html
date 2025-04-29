@@ -1,0 +1,117 @@
+{% extends 'dashboard/base.html' %} {% block content %}
+{% load static %}
+
+  {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert {% if message.tags %} alert-{{ message.tags }} {% else %} alert-info {% endif %}" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
+    <div class="d-flex justify-content-center align-items-center">
+      <!-- Vos éléments ici -->
+      <div class="container-fluid py-5">
+        <div class="container py-5">
+          <div class="">
+            <h3>Modifier l'article un nouvel article</h3>
+          </div>
+          <div class="row justify-content-center text-dark"> 
+            <div class="col-lg-12 w-100">
+              <div class="contact-form rounded p-5" style="background-color: rgb(202, 202, 211)">
+                <div id="success">
+                <form method="POST" enctype="multipart/form-data" action="{% url 'update_product' product.id %}">
+                    {% csrf_token %}
+                    {% if form.errors %}
+                        <div class="alert alert-danger">
+                            <strong>Veuillez corriger les erreurs ci-dessous :</strong>
+                            <ul>
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <li>{{ field.label }} : {{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Nouveau nom de l'article</span>
+                        {{ form.product_name }}
+                    </div>
+        
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Marque</span>
+                        {{ form.product_brand }}
+                    </div>
+                    
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Description</span>
+                        {{ form.product_description }}
+                    </div>
+                    
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Catégorie</span>
+                        {{ form.product_categorie }}
+                    </div>
+                    
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Prix</span>
+                        {{ form.product_price }}
+                    </div>
+                    
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Image 1</span>
+                        {% if product.product_image1 %}
+                            <img src="{{ product.product_image1.url }}" alt="Image 1" class="img-thumbnail rounded-circle m-3" style="width: 50px; height: 50px;">
+                        {% else %}
+                            <img src="{% static 'images/no_image.webp' %}" alt="No image" class="img-thumbnail rounded-circle m-3" style="width: 50px; height: 50px;" />
+                        {% endif %}
+                        {{ form.product_image1 }}  <!-- Champ de téléchargement d'image -->
+                    </div>
+                    
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Image 2</span>
+                        {% if product.product_image2 %}
+                            <img src="{{ product.product_image2.url }}" alt="Image 2" class="img-thumbnail rounded-circle m-3" style="width: 50px; height: 50px;">
+                        {% else %}
+                            <img src="{% static 'images/no_image.webp' %}" alt="No image" class="img-thumbnail rounded-circle m-3" style="width: 50px; height: 50px;" /> 
+                        {% endif %}
+                        {{ form.product_image2 }}  <!-- Champ de téléchargement d'image -->
+                    </div>
+                    
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Image 3</span>
+                        {% if product.product_image3 %}
+                            <img src="{{ product.product_image3.url }}" alt="Image 3" class="img-thumbnail rounded-circle m-3" style="width: 50px; height: 50px;">
+                        {% else %}
+                            <img src="{% static 'images/no_image.webp' %}" alt="No image" class="img-thumbnail rounded-circle m-3" style="width: 50px; height: 50px;" /> 
+                        {% endif %}
+                        {{ form.product_image3 }}  <!-- Champ de téléchargement d'image -->
+                    </div>
+                    
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Image 4</span>
+                        {% if product.product_image4 %}
+                            <img src="{{ product.product_image4.url }}" alt="Image 4" class="img-thumbnail rounded-circle m-3" style="width: 50px; height: 50px;">
+                        {% else %}
+                            <img src="{% static 'images/no_image.webp' %}" alt="No image" class="img-thumbnail rounded-circle m-3" style="width: 50px; height: 50px;" />
+                        {% endif %}
+                        {{ form.product_image4 }}  <!-- Champ de téléchargement d'image -->
+                    </div>
+                    
+                    <div class="text-center">
+                        <button class="btn btn-primary py-3 px-5 mt-3" type="submit">Modifier</button>
+                    </div>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

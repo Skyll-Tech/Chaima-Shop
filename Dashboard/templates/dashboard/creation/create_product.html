@@ -1,0 +1,80 @@
+{% extends 'dashboard/base.html' %} {% block content %}
+  {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert {% if message.tags %} alert-{{ message.tags }} {% else %} alert-info {% endif %}" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
+    <div class="d-flex justify-content-center align-items-center">
+      <!-- Vos éléments ici -->
+      <div class="container-fluid py-5">
+        <div class="container py-5">
+          <div class="">
+            <h3>Créer un nouvel article</h3>
+          </div>
+          <div class="row justify-content-center text-dark"> 
+            <div class="col-lg-12 w-100">
+              <div class="contact-form rounded p-5" style="background-color: rgb(202, 202, 211)">
+                <div id="success"></div>
+                <form method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  {% if form.errors %}
+                    <div class="alert alert-danger">
+                        <strong>Veuillez corriger les erreurs ci-dessous :</strong>
+                        <ul>
+                            {% for field in form %}
+                            {% for error in field.errors %}
+                            <li>{{ field.label }} : {{ error }}</li>
+                            {% endfor %}
+                            {% endfor %}
+                            {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                  {% endif %}
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Nom du produit</span> <input type="text" class="form-control" name="product_name" placeholder="Nom de l'article" required aria-label="Nom de l'article" aria-describedby="basic-addon1" />
+                  </div> <div class="input-group mb-3">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Marque</span> <input type="text" class="form-control" name="product_brand" placeholder="Marque de l'article" required aria-label="Marque du produit" aria-describedby="basic-addon1" />
+                  </div> <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Description</span> <textarea class="form-control" name="product_description" placeholder="Description de votre article" aria-describedby="basic-addon1"></textarea>
+                  </div> <div class="input-group mb-3">
+                  </div> <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Catégorie</span> <select class="form-select mb-3" aria-label="Default select example" name="product_categorie">
+                      <option selected>Choisir la catégorie du produit</option> {% for categories in categorie %}
+                        <option value="{{ categories.id }}">{{ categories.categorie_name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div> <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Prix</span> <input type="number" class="form-control" name="product_price" placeholder="Prix" aria-label="product_price" aria-describedby="basic-addon1" />
+                    <script>
+                        document.getElementById('product_price').value = formatPrice(parseFloat(document.getElementById('product_price').value));
+                    </script>
+                  </div> <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Image 1</span> <input type="file" class="form-control" name="product_image1" aria-label="product image" aria-describedby="basic-addon1" alt="image 1 du produit" />
+                  </div> <div class="text-center">
+                  </div> <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Image 2</span> <input type="file" class="form-control" name="product_image2" aria-label="product image" aria-describedby="basic-addon1" alt="image 2 du produit" />
+                  </div> <div class="text-center">
+                  </div> <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Image 3</span> <input type="file" class="form-control" name="product_image3" aria-label="product image" aria-describedby="basic-addon1" alt="image 3 du produit" />
+                  </div> <div class="text-center">
+                  </div> <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Image 4</span> <input type="file" class="form-control" name="product_image4" aria-label="product image" aria-describedby="basic-addon1" alt="image 4 du produit" />
+                  </div> <div class="text-center">
+                    <button class="btn btn-primary py-3 px-5 mt-3" type="submit">Créer</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'dashboard/base.html' %}
+{% block content %}
+{% load static %}
+
+{% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert {% if message.tags %} alert-{{ message.tags }} {% else %} alert-info {% endif %}" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h1>Créer une catégorie de produit</h1>
+        </div>
+        <div class="text-dark w-75">
+            <div class="col-lg-12">
+                <div class="contact-form rounded p-5" style="background-color: rgb(202, 202, 211);">
+                    <div id="success"></div>
+                   <form method="POST">
+                        {% csrf_token %}
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                <strong>Veuillez corriger les erreurs ci-dessous :</strong>
+                                <ul>
+                                    {% for field in form %}
+                                        {% for error in field.errors %}
+                                            <li>{{ field.label }} : {{ error }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                    {% for error in form.non_field_errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        <div class="control-group">
+                            <label for="id_categorie_name"><b>Catégorie</b></label>
+                            {{ form.categorie_name }}  <!-- Utilisez le champ du formulaire -->
+                        </div>
+                        
+                        <div class="text-center">
+                            <button class="btn btn-primary py-3 px-5 mt-3" type="submit">Créer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block content %}
+
+
+		<!-- Start Why Choose Us Section -->
+		<div class="why-choose-section">
+			<div class="container">
+				<div class="row justify-content-between">
+					<div class="col-lg-6">
+						<h2 class="section-title">{{ product.product_name }}</h2>
+						{% if product.product_description %}
+							<p class="text-break">{{ product.product_description }}</p>
+						{% endif %}
+
+						<div class="row my-5">
+							<div class="col-6 col-md-6">
+								<div class="feature">
+									<div class="icon">
+										<img src="{% static 'images/bag.svg' %}" alt="Image" class="imf-fluid">
+									</div>
+									<h3 class="fw-bold">{{ product.product_brand }}</h3>
+									<p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.</p>
+								</div>
+							</div>
+
+							<div class="col-6 col-md-6">
+								<div class="feature">
+									<div class="icon">
+										<img src="{% static 'images/support.svg' %}" alt="Image" class="imf-fluid">
+									</div>
+									<h3 class="fw-bold">{{ product.product_categorie }}</h3>
+									<p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.</p>
+								</div>
+							</div>
+
+							<div class="col-6 col-md-6">
+								<div class="feature">
+									<div class="icon">
+										<img src="{% static 'images/truck.svg' %}" alt="Image" class="imf-fluid">
+									</div>
+									<h3 class="fw-bold">24/7 Service client</h3>
+									<p>Service client disponible 24h/24</p>
+								</div>
+							</div>
+
+							<div class="col-6 col-md-6">
+								<div class="feature">
+									<div class="icon">
+										<img src="{% static 'images/return.svg' %}" alt="Image" class="imf-fluid">
+									</div>
+									<h3></h3>
+                                        <a class="btn btn-primary btn-sm m-2" href="#">Acheter</a>								
+                                        <a class="btn btn-primary sm" href="{% url 'add-to-cart' product.id %}">Ajouter panier</a>	    							
+                                </div>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="col-lg-5">
+						<div class="img-wrap">
+                            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                {% if product.product_image1 %}
+                                    <div class="carousel-item active">
+                                        <img src="{{ product.product_image1.url }}" class="img-fluid product-thumbnail d-block w-100">
+                                    </div>
+                                {% endif %}  
+                                {% if product.product_image2 %}
+                                    <div class="carousel-item">
+                                        <img src="{{ product.product_image2.url }}" class="img-fluid product-thumbnail d-block w-100">
+                                    </div>
+                                {% endif %}   
+                                {% if product.product_image3 %}
+                                    <div class="carousel-item">
+                                        <img src="{{ product.product_image3.url }}" class="img-fluid product-thumbnail d-block w-100">
+                                    </div>
+                                {% endif %}     
+                                {% if product.product_image4 %}
+                                    <div class="carousel-item">
+                                        <img src="{{ product.product_image4.url }}" class="img-fluid product-thumbnail d-block w-100">
+                                    </div>
+                                {% endif %}                            
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                            </div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!-- End Why Choose Us Section -->
+
+{% endblock %}

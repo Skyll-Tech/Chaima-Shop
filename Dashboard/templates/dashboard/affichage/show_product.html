@@ -1,0 +1,66 @@
+
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block content %}
+
+            {% if messages %}
+                <div class="container mt-3">
+                    {% for message in messages %}
+                    <div class="alert {% if message.tags %} alert-{{ message.tags }} {% else %} alert-info {% endif %}" role="alert">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i>
+                                Liste des catégories
+                            </div>
+                            <div class="card-body">
+                                <table id="datatablesSimple">
+                                    <thead>
+                                        <tr>
+                                            <th>Nom de l'article</th>
+                                            <th>Marque</th>
+                                            <th>Categorie</th>
+                                            <th>Prix</th>
+                                            <th>Description</th>
+                                            <th>Image</th>
+                                            <th>Gérer</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Nom de l'article</th>
+                                            <th>Marque</th>
+                                            <th>Categorie</th>
+                                            <th>Prix</th>
+                                            <th>Description</th>
+                                            <th>Image</th>
+                                            <th>Gérer</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    {% for products in product %}
+                                        <tr>
+                                            <td>{{ products.product_name }}</td>
+                                            <td>{{ products.product_brand }}</td>
+                                            <td>{{ products.product_categorie }}</td>
+                                            <td>{{ products.product_price }}€</td>
+                                            <td>{{ products.product_description |truncatechars:40 }}</td>
+                                            <td> {% if products.product_image1 %} 
+                                                    <img src="{{ products.product_image1.url }}" alt="Image de l'article" class="img-thumbnail rounded-circle" style="width: 50px; height: 50px;" /> 
+                                                    {% else %}
+                                                    <img src="{% static "images/no_image.webp" %}" alt="No image" class="img-thumbnail rounded-circle" style="width: 50px; height: 50px;" /> 
+                                                    {% endif %}
+                                            </td>
+                                            <td><a href="{% url 'delete_product' products.id %}" class="btn btn-danger ">Supprimer</a> <a href="{% url 'update_product' products.id %}" class="btn btn-primary ">Modifier</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+ {% endblock %}

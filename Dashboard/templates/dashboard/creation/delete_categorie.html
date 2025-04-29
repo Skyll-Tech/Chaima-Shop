@@ -1,0 +1,18 @@
+{% extends "dashboard/base.html" %}
+
+
+{% block content %}
+
+
+
+<div class="container">
+    <h1 class="fs-4 mt-2"> Êtes vous sur de vouloir supprimer la categorie: {{ categories.categorie_name }} ? </h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger py-md-2 px-md-4 font-weight-semi-bold mt-2">oui </button>
+        <a href="{% url "show_categories" %}" class="btn btn-primary py-md-2 px-md-4 font-weight-semi-bold mt-2">non</a>
+    </form>
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,47 @@
+{% extends "dashboard/base.html" %}
+
+
+{% block content %}
+
+{% if messages %}
+<div class="container mt-3">
+    {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div class="d-flex justify-content-center align-items-center">
+    <div>
+      <!-- Vos éléments ici -->
+      <div class="container-fluid py-5 ">
+        <div class="container py-5">
+            <div class="">
+                <h3>Modifier cette catégorie</h3>
+            </div>
+            <div class="row justify-content-center text-dark">
+                <div class="col-lg-12">
+                    <div class="contact-form rounded p-5 w-100" style="background-color: rgb(202, 202, 211);">
+                        <div id="success"></div>
+                        <form method="POST" action="{% url 'update_categorie' categorie.id %}">
+                            {% csrf_token %}
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">Nouveau nom de la catégorie</span>
+                                {{ form.categorie_name }}  <!-- Affichage du champ de formulaire -->
+                            </div>
+                            <div class="text-center">   
+                                <button class="btn btn-primary py-3 px-5 mt-3" type="submit">Modifier</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+    </div>
+  </div>
+
+{% endblock content %}
