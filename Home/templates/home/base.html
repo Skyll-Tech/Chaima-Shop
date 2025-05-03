@@ -55,7 +55,9 @@
                     <li><a class="nav-link" href="{% url 'login' %}"><img src="{% static 'images/user.svg' %}">Se connecter</a></li>
                     <li><a class="nav-link" href="{% url 'signup' %}"><img src="{% static 'images/user.svg' %}">S'inscrire</a></li>
                 {% endif %}
+				{% if user.cart and not user.cart.ordered %}
                 <li><a class="nav-link text-white" href="{% url 'cart' %}"><img src="{% static 'images/cart.svg' %}">({{ user.cart.orders.count }})</a></li>
+				{% endif %}
             </ul>
         </div>
     </div>

@@ -8,6 +8,7 @@ urlpatterns = [
     path('product_cat/<int:id>/', views.Product_cat, name='product_cat'),
     path('product/<int:id>/add-to-cart/', views.Add_to_cart, name='add-to-cart'),    
     path('cart/', views.cart, name='cart'),    
+    path('stripe_webhook/', views.Stripe_webhook, name='stripe_webhook'),    
     path('cart/delete', views.Delete_cart, name='delete-cart'),    
     path('cart/create-checkout-session/', views.Create_checkout_session, name='create-checkout-session'),    
     path('cart/checkout_success/', views.Checkout_success, name='checkout_success'),    
