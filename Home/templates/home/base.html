@@ -23,7 +23,7 @@
 		<!-- Start Header/Navigation -->
 <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Furni navigation bar">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'index' %}">Chaima-Shop<span>.</span></a>
+        <a class="navbar-brand" href="{% url 'chaima_shop:index' %}">Chaima-Shop<span>.</span></a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -32,10 +32,10 @@
         <div class="collapse navbar-collapse" id="navbarsFurni">
             <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
                 <li class="nav-item {% if request.path == '/' %}active{% endif %}">
-                    <a class="nav-link" href="{% url 'index' %}">Accueil</a>
+                    <a class="nav-link" href="{% url 'chaima_shop:index' %}">Accueil</a>
                 </li>
                 <li class="nav-item {% if request.path == '/shop/' %}active{% endif %}">
-                    <a class="nav-link" href="{% url 'shop' %}">Boutique</a>
+                    <a class="nav-link" href="{% url 'chaima_shop:shop' %}">Boutique</a>
                 </li>
                 <li class="nav-item {% if request.path == '/about/' %}active{% endif %}">
                     <a class="nav-link" href="about.html">A propos de nous</a>
@@ -50,13 +50,13 @@
 
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                 {% if user.is_authenticated %}
-                    <li><a class="nav-link" href="{% url 'logout' %}"><img src="{% static 'images/user.svg' %}">{{ user.username }}. Se déconnecter</a></li>
+                    <li><a class="nav-link" href="{% url 'logout' %}"><img src="{% static 'images/user.svg' %}">{{ user.email }}. Se déconnecter</a></li>
                 {% else %}
                     <li><a class="nav-link" href="{% url 'login' %}"><img src="{% static 'images/user.svg' %}">Se connecter</a></li>
                     <li><a class="nav-link" href="{% url 'signup' %}"><img src="{% static 'images/user.svg' %}">S'inscrire</a></li>
                 {% endif %}
 				{% if user.cart and not user.cart.ordered %}
-                <li><a class="nav-link text-white" href="{% url 'cart' %}"><img src="{% static 'images/cart.svg' %}">({{ user.cart.orders.count }})</a></li>
+                <li><a class="nav-link text-white" href="{% url 'chaima_shop:cart' %}"><img src="{% static 'images/cart.svg' %}">({{ user.cart.orders.count }})</a></li>
 				{% endif %}
             </ul>
         </div>

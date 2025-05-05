@@ -10,30 +10,32 @@ from django.contrib import messages
 User = get_user_model()
 
 def Signup(request):
-    if request.method == 'POST':
-        username = request.POST.get("username")
+    if request.method == "POST":
+        # traiter le formulaire
+        # le nom des clés dans le dictionnaire sont définits par name="" dans la balise html de l'input
+        email = request.POST.get("email")
         password = request.POST.get("password")
-        user = User.objects.create_user(username=username, password=password)
+        user = User.objects.create_user(email=email, password=password)
         login(request, user)
-        return redirect ('index')
+        return redirect('chaima_shop:index')
 
     return render(request, 'client/signup.html')
 
 def Login_user(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        email = request.POST.get("email")
         password = request.POST.get('password')
 
-        user = authenticate(username = username, password = password)
+        user = authenticate(email = email, password = password)
         if user:
             login(request, user)
-            return redirect('index')
+            return redirect('chaima_shop:index')
 
     return render(request, 'client/login.html')
 
 def Logout_user (request):
     logout(request)
-    return redirect ('index')
+    return redirect ('chaima_shop:index')
 
 @login_required
 def Profil(request):

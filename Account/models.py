@@ -31,6 +31,7 @@ class CustomUserManager(BaseUserManager):
 
 class Shopper(AbstractUser):
     username = None
+    stripe_id = models.CharField(max_length=90, blank=True)
     email = models.EmailField(max_length=240, unique=True)
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -50,6 +51,9 @@ class ShippingAddress(models.Model):
     # liste de tuple avec en 1er deux lettres (bd) et après le pays
     country = models.CharField(max_length=2, choices=[(c.alpha2.lower(), c.name) for c in countries])
     default = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
 
 """
 

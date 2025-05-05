@@ -1,6 +1,6 @@
 from pprint import pprint
 from django.shortcuts import redirect, render, HttpResponse, get_object_or_404
-from Account.models import Shopper
+from Account.models import ShippingAddress, Shopper
 from Dashboard.models import Product, Categorie
 import random
 from django.urls import reverse
@@ -61,7 +61,7 @@ def Add_to_cart(request, id):
         order.quantity += 1
         order.save()
 
-    return redirect(reverse("product_details",kwargs={"id":id}))
+    return redirect(reverse("chaima_shop:product_details",kwargs={"id":id}))
 
 def cart(request):
     cart = get_object_or_404(Cart, user=request.user)
@@ -69,6 +69,36 @@ def cart(request):
     return render(request, 'home/cart.html', {'orders': cart.orders.all()})
 
 def Create_checkout_session(request):
+        # récupère le panier
+    cart = request.user.cart
+    # compréhension de liste avec un dictionnaire (id + qté)
+    line_items = [{"price": order.product.stripe_id,
+                   "quantity": order.quantity} for order in cart.orders.all()]
+
+    checkout_data = {
+        "locale": "fr",
+        "line_items": line_items,
+        "mode": 'payment',
+        # voir ds la doc. On passe un dico avec une liste de pays autorisés
+        "shipping_address_collection": {"allowed_countries": ["FR", "BE", "CM"]},
+        # il faut une url absolue car je suis sur Stripe à ce moment-là
+        "success_url": request.build_absolute_uri(reverse('chaima_shop:checkout_success')),
+        "cancel_url": 'http://127.0.0.1:8000',
+    }
+    # une condition pour savoir si on a déjà un stripe_id pour notre user
+    if request.user.stripe_id:
+        checkout_data["customer"] = request.user.stripe_id
+    else:
+        checkout_data["customer_email"] = request.user.email
+        # créer le client dans stripe la première fois
+        checkout_data["customer_creation"] = "always"
+    # tout ce que j'avais ici je l'ai passé à checkout_data en dictionnaire
+    # on va utiliser l'unpacking
+    session = stripe.checkout.Session.create(**checkout_data)
+
+    return redirect(session.url, code=303)
+
+"""
     try:
         cart = request.user.cart
         # Construire correctement les line_items en respectant le format attendu par Stripe
@@ -88,6 +118,8 @@ def Create_checkout_session(request):
         # Créer une session de checkout
         checkout_session = stripe.checkout.Session.create(
             locale="fr",
+            customer_email=request.user.email,
+            shipping_address_collection={'allowed_countries':["FR","CA","CM"]},
             line_items=line_items,  # Transmet les objets construits correctement
             mode='payment',
             success_url=YOUR_DOMAIN + reverse('checkout_success'),  # Chemin relatif vers la page de succès
@@ -97,6 +129,8 @@ def Create_checkout_session(request):
         return HttpResponse(f"Une erreur est survenue : {str(e)}", status=400)
     
     return redirect(checkout_session.url, code=303)
+
+"""
 
 
 def Checkout_success(request):
@@ -108,7 +142,7 @@ def Delete_cart(request):
     if cart := request.user.cart:
         cart.delete()
     
-    return redirect('shop')
+    return redirect('chaima_shop:shop')
 
 
 @csrf_exempt
@@ -142,6 +176,8 @@ def Stripe_webhook(request):
 
         # deux fonctions du dessous
         complete_order(data=data, user=user)
+        save_shipping_adress(data=data, user=user)
+
 
         return HttpResponse(status=200)
 
@@ -151,12 +187,42 @@ def Stripe_webhook(request):
 # pas de requête ici on créer une fonction qui sera retournée dans la vue stripe_webhook
 def complete_order(data, user):
     user.stripe_id = data['customer']
-    user.cart.order_ok()
+    user.cart.delete()
+    # user.cart.order_ok()
     # faire un save pour le stripe_id
     user.save()
 
     # 200 pour indiquer que le paiement a été procéssé correctement
     return HttpResponse(status=200)
+
+def save_shipping_adress(data, user):
+    try:
+        # Extraction depuis "customer_details" (d'après le log)
+        customer_details = data["customer_details"]
+        address = customer_details["address"]
+        name = customer_details["name"]
+        city = address.get("city", "")
+        country = address.get("country", "")
+        line1 = address.get("line1", "")
+        # Si line2 est None, on remplace par une chaîne vide
+        line2 = address.get("line2") or ""
+        # On utilise 'or ""' pour s'assurer que postal_code n'est pas None
+        zip_code = address.get("postal_code") or ""
+    except KeyError:
+        return HttpResponse(status=400)
+
+    ShippingAddress.objects.get_or_create(
+        user=user,
+        name=name,
+        city=city,
+        country=country.lower(),
+        address_1=line1,
+        address_2=line2,
+        zip_code=zip_code
+    )
+    return HttpResponse(status=200)
+
+
         
 def Mention_legale(request):
     return render(request, 'conditions_gene/mention_legale.html')

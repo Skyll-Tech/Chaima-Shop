@@ -78,7 +78,7 @@
                       <button class="btn btn-black btn-sm btn-block">Update Cart</button>
                     </div>
                     <div class="col-md-6">
-                      <a href="{% url 'delete-cart' %}" class="btn btn-outline-black btn-sm btn-block">Continue Shopping</a>
+                      <a href="{% url 'chaima_shop:delete-cart' %}" class="btn btn-outline-black btn-sm btn-block">Continue Shopping</a>
                     </div>
                   </div>
                   <div class="row">
@@ -121,7 +121,7 @@
         
                       <div class="row">
                         <div class="col-md-12">
-                        <form method="POST" action ="{% url 'create-checkout-session' %}"> 
+                        <form method="POST" action ="{% url 'chaima_shop:create-checkout-session' %}"> 
                         {% csrf_token %}
                             <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='checkout.html'" type="submit">Proceed To Checkout</button>
                         </form>

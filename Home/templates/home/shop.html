@@ -16,11 +16,11 @@
 						</div>
 							<ul class="nav nav-tabs">
 							<li class="nav-item">
-								<a class="nav-link active text-dark" aria-current="page" href="{% url 'shop' %}">All</a>
+								<a class="nav-link active text-dark" aria-current="page" href="{% url 'chaima_shop:shop' %}">All</a>
 							</li>
 							{% for categories in categorie %}
 							<li class="nav-item ml-2"> 
-								<a class="nav-link text-dark" href="{% url 'product_cat' categories.id %}">{{ categories.categorie_name }}</a>
+								<a class="nav-link text-dark" href="{% url 'chaima_shop:product_cat' categories.id %}">{{ categories.categorie_name }}</a>
 							</li>
 							{% endfor %}
 							</ul>
@@ -38,7 +38,7 @@
 					<!-- Start Column 2 -->
 					{% for products in product %}
 					<div class="col-12 col-md-4 col-lg-3 mb-4">
-						<a class="product-item" href="{% url 'product_details' products.id %}">
+						<a class="product-item" href="{% url 'chaima_shop:product_details' products.id %}">
 						{% if products.product_image1 %}
 							<img src="{{ products.product_image1.url }}" class="img-fluid product-thumbnail">
 						{% else %}
