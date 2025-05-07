@@ -19,25 +19,19 @@ class Order(models.Model):
     def __str__(self):
         return f"{self.product.product_name} ({self.quantity})" 
     
-
-"""
- class Cart(models.Model):
-    user = models.OneToOneField(AUTH_USER_MODEL, on_delete=models.CASCADE)
-    orders = models.ManyToManyField(Order)
+    def total_price(self):
+        return self.product.product_price * self.quantity
+    
+    
 
     def __str__(self):
-        return self.user.username
+        return f"{self.product.product_name} ({self.quantity})" 
     
-    def delete(self, *args, **kwargs):
-        for order in self.orders.all():
-            order.ordered=True
-            order.ordered_date = timezone.now()
-            order.save()
+    @property
+    def total_price(self):
+        return self.product.product_price * self.quantity
+    
 
-        self.orders.clear()    
-        super().delete(*args, **kwargs)
-
-        """
 
 class Cart(models.Model):
     # one to one car l'utilisateur ne peut avoir qu'un seul panier. Si j'utilise Foreign als unique=True
@@ -46,6 +40,11 @@ class Cart(models.Model):
     orders = models.ManyToManyField(Order)
     ordered = models.BooleanField(default=False)
     ordered_date = models.DateTimeField(blank=True, null=True)
+
+    
+    @property
+    def net_total(self):
+        return sum(order.total_price for order in self.orders.all())
 
 
     def __str__(self):

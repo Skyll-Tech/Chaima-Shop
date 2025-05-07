@@ -67,40 +67,45 @@ def Add_to_cart(request, id):
 
 def cart(request):
     cart = get_object_or_404(Cart, user=request.user)
-   #    # if request.user.is_anonymous:
-    #     return redirect('index')
-
     orders = Order.objects.filter(user=request.user, ordered=False)
-    # si je n'ai pas d'articles en cours de commande
+    
+    # Si aucune commande n'est en cours, on redirige
     if orders.count() == 0:
         return redirect('index')
-    # formset auquel on précise le modele et le formulaire. extra 0 car je ne veux pas afficher des formulaires vierge
-    # un formset car on a potentiellement plusieurs forms sur la mm page car peut-être plusieurs articles
-    # je l'attribue à une variable ce qui me permet de créer une class.
+    
+    # Création du formset correspondant aux commandes de l'utilisateur
     OrderFormSet = modelformset_factory(Order, form=OrderForm, extra=0)
-    # puis on va créer une instance
-    # je veux récupérer uniquement les articles dans le panier de l'utilisateur
     formset = OrderFormSet(queryset=orders)
-    return render(request, 'home/cart.html', context={'orders': cart.orders.all(),
-                                                      "forms": formset})  #{'orders': cart.orders.all()}
+    
+    # Le contexte inclut maintenant la propriété net_total du panier
+    return render(request, 'home/cart.html', context={
+        'orders': cart.orders.all(),
+        "forms": formset,
+        "net_total": cart.net_total
+    })
+
 
 def Update_quantities(request):
-    # Récupérer les commandes de l'utilisateur
+    # Récupérer les commandes de l'utilisateur non commandées
     queryset = Order.objects.filter(user=request.user, ordered=False)
-    print("Ordres trouvés :", queryset.count())  # Debug
-
     OrderFormSet = modelformset_factory(Order, form=OrderForm, extra=0)
     formset = OrderFormSet(request.POST or None, queryset=queryset)
 
     if request.method == 'POST':
-        print("Données POST reçues:", request.POST)  # Debug
         if formset.is_valid():
             formset.save()
             return redirect('chaima_shop:cart')
         else:
-            print("Erreurs de formulaire:", formset.errors)  # Debug
+            print("Erreurs de formulaire:", formset.errors)
 
-    return render(request, 'pagetest.html', {'forms': formset})
+    # Calcul du total net de tous les articles
+    # Si tu disposes déjà d'une propriété total_price dans ton modèle, tu peux l'utiliser directement.
+    net_total = sum(order.total_price for order in queryset)
+    # Sinon, fais le calcul explicitement :
+    # net_total = sum(order.product.product_price * order.quantity for order in queryset)
+
+    return render(request, 'pagetest.html', {'forms': formset, 'net_total': net_total})
+
 
 def Create_checkout_session(request):
         # récupère le panier
