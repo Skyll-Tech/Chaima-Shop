@@ -12,6 +12,7 @@ urlpatterns = [
     path('update_quantities/', views.Update_quantities , name='update_quantities'),    
     path('stripe_webhook/', views.Stripe_webhook, name='stripe_webhook'),    
     path('cart/delete', views.Delete_cart, name='delete-cart'),    
+    path('remove/<int:order_id>/', views.remove_from_cart, name='remove_from_cart'),
     path('cart/create-checkout-session/', views.Create_checkout_session, name='create-checkout-session'),    
     path('cart/checkout_success/', views.Checkout_success, name='checkout_success'),    
     path('product_checkout/<int:id>/', views.Checkout, name='checkout'),

@@ -183,6 +183,16 @@ def Delete_cart(request):
     
     return redirect('chaima_shop:shop')
 
+def remove_from_cart(request, order_id):
+    cart = get_object_or_404(Cart, user=request.user)
+    order = get_object_or_404(Order, id=order_id)
+
+    if order in cart.orders.all():
+        cart.orders.remove(order)
+        order.delete()  # Supprime l'ordre si ce n'est plus nécessaire
+
+    return redirect('chaima_shop:cart')
+
 
 @csrf_exempt
 def Stripe_webhook(request):

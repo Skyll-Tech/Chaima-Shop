@@ -57,7 +57,9 @@
                         {{ form.id }}
                     </td>
                     <td>$ {{ form.instance.total_price|floatformat:2 }}</td>
-                    <td><a href="#" class="btn btn-black btn-sm">X</a></td>
+                    <td>
+                        <a href="{% url 'chaima_shop:remove_from_cart' form.instance.id %}" class="btn btn-danger btn-sm">X</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
