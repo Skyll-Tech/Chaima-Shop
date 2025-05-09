@@ -1,4 +1,5 @@
 from pprint import pprint
+import environ
 from django.forms import modelformset_factory
 from django.shortcuts import redirect, render, HttpResponse, get_object_or_404
 from Account.models import ShippingAddress, Shopper
@@ -12,10 +13,15 @@ from Home.forms import OrderForm
 from Home.models import Cart, Order
 
 from chacha import settings
-import stripe   ### à demander
 from django.views.decorators.csrf import csrf_exempt
+from chacha.settings import BASE_DIR
 
+import stripe   ### à demander
 stripe.api_key = settings.STRIPE_API_KEY
+environ.Env.read_env(BASE_DIR / ".env")
+env = environ.Env()
+
+
 
 YOUR_DOMAIN = 'http://localhost:8000'  #### a demander
 
@@ -198,7 +204,7 @@ def remove_from_cart(request, order_id):
 def Stripe_webhook(request):
     payload = request.body
     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
-    endpoint_secret = "whsec_0b7d1a182b025920a7a064b6da33abef21598795b16ff42bf62e0fb4a6a639ba"
+    endpoint_secret = env("endpoint_secret")
     event = None
 
     try:
