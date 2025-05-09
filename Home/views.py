@@ -71,7 +71,7 @@ def cart(request):
     
     # Si aucune commande n'est en cours, on redirige
     if orders.count() == 0:
-        return redirect('index')
+        return redirect('chaima_shop:index')
     
     # Création du formset correspondant aux commandes de l'utilisateur
     OrderFormSet = modelformset_factory(Order, form=OrderForm, extra=0)
