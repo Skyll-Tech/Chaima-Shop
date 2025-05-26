@@ -280,7 +280,7 @@ def save_shipping_adress(data, user):
 
         
 def Mention_legale(request):
-    return render(request, 'conditions_gene/mention_legale.html')
+    return render(request, 'conditions_generale/mention_legale.html')
 
 
 

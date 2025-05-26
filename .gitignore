@@ -1,5 +1,5 @@
 #à verifier
-.dea
+.idea
 db.sqlite3
 media/
 *.pyc
@@ -11,3 +11,4 @@ __pycache__/
 *.pyo
 .DS_Store
 *.log
+.env/
