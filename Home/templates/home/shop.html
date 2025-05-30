@@ -4,29 +4,28 @@
 {% block content %}
 
 		<!-- Start Hero Section -->
-			<div class="hero">
-				<div class="container">
-					<div class="row justify-content-between">
-						<div class="col-lg-5">
-							<div class="intro-excerpt">
-								<h1>Shop</h1>
-							</div>
-						</div>
-						<div class="col-lg-7">
-						</div>
-							<ul class="nav nav-tabs">
-							<li class="nav-item">
-								<a class="nav-link active text-dark" aria-current="page" href="{% url 'chaima_shop:shop' %}">All</a>
-							</li>
-							{% for categories in categorie %}
-							<li class="nav-item ml-2"> 
-								<a class="nav-link text-dark" href="{% url 'chaima_shop:product_cat' categories.id %}">{{ categories.categorie_name }}</a>
-							</li>
-							{% endfor %}
-							</ul>
-					</div>
-				</div>
-			</div>
+		<div class="m-3 d-flex justify-content-center">
+			<ul class="nav nav-tabs">
+				<!-- Lien "All" : actif lorsque aucune catégorie n'est sélectionnée -->
+				<li class="nav-item">
+					<a class="nav-link {% if not active_categorie %}active{% endif %} text-dark" 
+					aria-current="page" 
+					href="{% url 'chaima_shop:shop' %}">
+						All
+					</a>
+				</li>
+				
+				<!-- Boucle sur les catégories -->
+				{% for cat in categorie %}
+				<li class="nav-item ml-2">
+					<a class="nav-link {% if active_categorie == cat.id %}active{% endif %} text-dark" 
+					href="{% url 'chaima_shop:product_cat' cat.id %}">
+						{{ cat.categorie_name }}
+					</a>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
 		<!-- End Hero Section -->
 
 		

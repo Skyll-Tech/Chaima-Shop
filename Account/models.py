@@ -29,7 +29,7 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email=email, password=password, **kwargs)
 
 
-class Shopper(AbstractUser):
+class Shopper(AbstractUser):  ## compte client
     username = None
     stripe_id = models.CharField(max_length=90, blank=True)
     email = models.EmailField(max_length=240, unique=True)

@@ -10,28 +10,62 @@ from django.contrib import messages
 User = get_user_model()
 
 def Signup(request):
+    errors = []  # liste qui contiendra les messages d'erreur
     if request.method == "POST":
-        # traiter le formulaire
-        # le nom des clés dans le dictionnaire sont définits par name="" dans la balise html de l'input
         email = request.POST.get("email")
         password = request.POST.get("password")
-        user = User.objects.create_user(email=email, password=password)
+        
+        # Vérifier que l'email et le mot de passe sont bien fournis
+        if not email:
+            errors.append("L'adresse email est requise.")
+        if not password:
+            errors.append("Le mot de passe est requis.")
+        
+        # Vérifier que l'email n'est pas déjà utilisé
+        if email and User.objects.filter(email=email).exists():
+            errors.append("Cette adresse email est déjà utilisée.")
+        
+        # Si des erreurs sont détectées, les afficher dans le template
+        if errors:
+            return render(request, 'client/signup.html', {'errors': errors})
+        
+        # Tenter de créer l'utilisateur dans un bloc try/except
+        try:
+            user = User.objects.create_user(username=email, email=email, password=password)
+        except Exception as e:
+            errors.append("Une erreur s'est produite lors de la création de l'utilisateur : " + str(e))
+            return render(request, 'client/signup.html', {'errors': errors})
+        
+        # Connecter l'utilisateur et rediriger vers la page d'accueil
         login(request, user)
         return redirect('chaima_shop:index')
 
     return render(request, 'client/signup.html')
 
 def Login_user(request):
+    errors = []  # Liste des messages d'erreur
     if request.method == 'POST':
         email = request.POST.get("email")
-        password = request.POST.get('password')
-
-        user = authenticate(email = email, password = password)
-        if user:
-            login(request, user)
-            return redirect('chaima_shop:index')
-
-    return render(request, 'client/login.html')
+        password = request.POST.get("password")
+        
+        if not email:
+            errors.append("L'adresse email est obligatoire.")
+        if not password:
+            errors.append("Le mot de passe est obligatoire.")
+        
+        if not errors:
+            user = authenticate(request, email=email, password=password)
+            
+            # En cas de modèle utilisateur par défaut, utilisez : user = authenticate(request, username=email, password=password)
+            
+            if user is not None:
+                login(request, user)
+                return redirect('chaima_shop:index')
+            else:
+                errors.append("Email et/ou mot de passe incorrect.")
+    
+    # On affiche toujours le formulaire, avec éventuellement des erreurs
+    return render(request, 'client/login.html', {'errors': errors})
 
 def Logout_user (request):
     logout(request)

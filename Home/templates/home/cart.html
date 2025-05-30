@@ -33,11 +33,11 @@
                             <thead>
                                 <tr>
                                     <th class="product-thumbnail">Image</th>
-                                    <th class="product-name">Product</th>
-                                    <th class="product-price">Price</th>
-                                    <th class="product-quantity">Quantity</th>
+                                    <th class="product-name">Produits</th>
+                                    <th class="product-price">Prix</th>
+                                    <th class="product-quantity">Quantité</th>
                                     <th class="product-total">Total</th>
-                                    <th class="product-remove">Remove</th>
+                                    <th class="product-remove">Retirer</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,7 +49,7 @@
                                     <td class="product-name">
                                         <h2 class="h5 text-black">{{ form.instance.product.product_name }}</h2>
                                     </td>
-                                    <td>$ {{ form.instance.product.product_price }}</td>
+                                    <td>€ {{ form.instance.product.product_price }}</td>
                                     <td>
                                         {{ form.quantity }}
                                         {{ form.id }}
@@ -63,33 +63,19 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="col-md-6 mb-3 mb-md-0">
-                        <button class="btn btn-black btn-sm btn-block">Mettre à jour le panier</button>
-                    </div>
                 </form>
               </div>
               <div class="row">
                 <div class="col-md-6">
                   <div class="row mb-5">
                     <div class="col-md-6 mb-3 mb-md-0">
-                      <button class="btn btn-black btn-sm btn-block">###</button>
+                        <button class="btn btn-black btn-sm btn-block">Mettre à jour le panier</button>
                     </div>
                     <div class="col-md-6">
                       <a href="{% url 'chaima_shop:delete-cart' %}" class="btn btn-outline-black btn-sm btn-block">Supprimer le panier</a>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <label class="text-black h4" for="coupon">Coupon</label>
-                      <p>Enter your coupon code if you have one.</p>
-                    </div>
-                    <div class="col-md-8 mb-3 mb-md-0">
-                      <input type="text" class="form-control py-3" id="coupon" placeholder="Coupon Code">
-                    </div>
-                    <div class="col-md-4">
-                      <button class="btn btn-black">Apply Coupon</button>
-                    </div>
-                  </div>
+
                 </div>
                 <div class="col-md-6 pl-5">
                   <div class="row justify-content-end">
@@ -101,10 +87,10 @@
                       </div>
                       <div class="row mb-5">
                         <div class="col-md-6">
-                          <span class="text-black">Net à payer</span>
+                          <span class="text-black bg-white p-1 fw-bold fs-6">Net à payer</span>
                         </div>
                         <div class="col-md-6 text-right">
-                          <strong class="text-black">$ {{ net_total|floatformat:2 }}</strong>
+                          <strong class="text-black bg-white p-1 fs-6">{{ net_total|floatformat:2 }}€</strong>
                         </div>
                       </div>
         
@@ -112,7 +98,7 @@
                         <div class="col-md-12">
                         <form method="POST" action ="{% url 'chaima_shop:create-checkout-session' %}"> 
                         {% csrf_token %}
-                            <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='checkout.html'" type="submit">Proceed To Checkout</button>
+                            <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='checkout.html'" type="submit">Payer maintenant🛒</button>
                         </form>
                         </div>
                       </div>

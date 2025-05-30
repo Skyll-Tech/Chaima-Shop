@@ -1,13 +1,18 @@
 {% extends 'client/base.html' %}
 {% block content %}
-                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Se connecter</h3></div>
                                     <div class="card-body">
+                                    {% if errors %}
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                            {% for error in errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                            </ul>
+                                        </div>
+                                        {% endif %}
                                         <form method='POST'>
 										{% csrf_token %}
-                                            <div class="form-floating mb-3">
-                                                <input class="form-control" name="username" id="inputFirstName" type="text" placeholder="Entrez votre nom" />
-                                                <label for="inputFirstName">Nom</label>
-                                            </div>
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" name="email" id="inputEmail" type="email" placeholder="name@example.com" />
                                                 <label for="inputEmail" >Email address</label>
@@ -16,14 +21,13 @@
                                                 <input class="form-control" name="password" id="inputPassword" type="password" placeholder="Entrez votre mot de passe" />
                                                 <label for="inputPassword">Mot de passe</label>
                                             </div>
-                                            <div class="form-check mb-3">
-                                                <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
-                                                <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
-                                            </div>
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                <a class="small" href="password.html">Forgot Password?</a>
                                                 <button type="submit" class="btn btn-primary" href="index.html">Connexion</button>
                                             </div>
                                         </form>
+                                        </div>
+                                    <div class="card-footer text-center py-3">
+                                        <div class="small"><a href="{% url 'signup' %}">Pas de compte? Créer un compte</a></div>
+                                    </div>
 
 {% endblock %}  
