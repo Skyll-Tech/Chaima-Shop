@@ -19,8 +19,8 @@
 									<div class="icon">
 										<img src="{% static 'images/bag.svg' %}" alt="Image" class="imf-fluid">
 									</div>
-									<h3 class="fw-bold">{{ product.product_brand }}</h3>
-									<p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.</p>
+									<h3 class="fw-bold">Marque: {{ product.product_brand }}</h3>
+									<p></p>
 								</div>
 							</div>
 
@@ -29,32 +29,21 @@
 									<div class="icon">
 										<img src="{% static 'images/support.svg' %}" alt="Image" class="imf-fluid">
 									</div>
-									<h3 class="fw-bold">{{ product.product_categorie }}</h3>
-									<p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.</p>
+									<h3 class="fw-bold">Catégorie: {{ product.product_categorie }}</h3>
+									<p></p>
 								</div>
 							</div>
 
-							<div class="col-6 col-md-6">
-								<div class="feature">
-									<div class="icon">
-										<img src="{% static 'images/truck.svg' %}" alt="Image" class="imf-fluid">
-									</div>
-									<h3 class="fw-bold">24/7 Service client</h3>
-									<p>Service client disponible 24h/24</p>
-								</div>
-							</div>
 
-							<div class="col-6 col-md-6">
+						</div>
+						<div class="row my-5">
+													<div class="col-6 col-md-6">
 								<div class="feature">
-									<div class="icon">
-										<img src="{% static 'images/return.svg' %}" alt="Image" class="imf-fluid">
-									</div>
 									<h3></h3>
                                         <a class="btn btn-primary btn-sm m-2" href="{% url 'chaima_shop:cart' %}">Voir mon panier</a>								
                                         <a class="btn btn-primary sm" href="{% url 'chaima_shop:add-to-cart' product.id %}">Ajouter au panier</a>	    							
                                 </div>
 							</div>
-
 						</div>
 					</div>
 

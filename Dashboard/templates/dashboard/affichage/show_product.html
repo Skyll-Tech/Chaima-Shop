@@ -45,7 +45,15 @@
                                     <tbody>
                                     {% for products in product %}
                                         <tr>
-                                            <td>{{ products.product_name }}</td>
+                                        <td>
+                                            {% if not products.stripe_id %}
+                                                <span style="color:red !important;">
+                                                    {{ products.product_name }}
+                                                </span>
+                                            {% else %}
+                                                {{ products.product_name }}
+                                            {% endif %}
+                                            </td>
                                             <td>{{ products.product_brand }}</td>
                                             <td>{{ products.product_categorie }}</td>
                                             <td>{{ products.product_price }}€</td>

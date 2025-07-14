@@ -3,7 +3,7 @@ from . import views
 from django.conf import settings 
 from django.conf.urls.static import static
 urlpatterns = [
-    path('dashboard/', views.Dashboard, name='dashboard'),
+    path('mydashboard/', views.Dashboard, name='dashboard'),
 
     path('show_categories/', views.Show_categories, name='show_categories'),
     path('create_categorie/', views.Create_categorie, name= 'create_categorie'),

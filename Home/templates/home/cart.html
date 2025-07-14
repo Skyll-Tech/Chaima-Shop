@@ -9,7 +9,7 @@
 					<div class="row justify-content-between">
 						<div class="col-lg-5">
 							<div class="intro-excerpt">
-								<h1>Cart</h1>
+								<h1>Panier</h1>
 							</div>
 						</div>
 						<div class="col-lg-7">
@@ -25,57 +25,59 @@
 		<div class="untree_co-section before-footer-section">
             <div class="container">
               <div class="row mb-5">
-                <form method="post" action="{% url 'chaima_shop:update_quantities' %}">
-                    {% csrf_token %}
-                    {{ forms.management_form }}
-                    <div class="site-blocks-table">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th class="product-thumbnail">Image</th>
-                                    <th class="product-name">Produits</th>
-                                    <th class="product-price">Prix</th>
-                                    <th class="product-quantity">Quantité</th>
-                                    <th class="product-total">Total</th>
-                                    <th class="product-remove">Retirer</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for form in forms %}
-                                <tr>
-                                    <td class="product-thumbnail">
-                                        <img src="{{ form.instance.product.product_image1.url }}" alt="Image" class="img-fluid">
-                                    </td>
-                                    <td class="product-name">
-                                        <h2 class="h5 text-black">{{ form.instance.product.product_name }}</h2>
-                                    </td>
-                                    <td>€ {{ form.instance.product.product_price }}</td>
-                                    <td>
-                                        {{ form.quantity }}
-                                        {{ form.id }}
-                                    </td>
-                                    <td>$ {{ form.instance.total_price|floatformat:2 }}</td>
-                                    <td>
-                                        <a href="{% url 'chaima_shop:remove_from_cart' form.instance.id %}" class="btn btn-danger btn-sm">X</a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
+               <form method="post" action="{% url 'chaima_shop:update_quantities' %}">
+    {% csrf_token %}
+    {{ forms.management_form }}
+    <div class="site-blocks-table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="product-thumbnail">Image</th>
+                    <th class="product-name">Produits</th>
+                    <th class="product-price">Prix</th>
+                    <th class="product-quantity">Quantité</th>
+                    <th class="product-total">Total</th>
+                    <th class="product-remove">Retirer</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for form in forms %}
+                <tr>
+                    <td class="product-thumbnail">
+                        <img src="{{ form.instance.product.product_image1.url }}" alt="Image" class="img-fluid">
+                    </td>
+                    <td class="product-name">
+                        <h2 class="h5 text-black">{{ form.instance.product.product_name }}</h2>
+                    </td>
+                    <td>€ {{ form.instance.product.product_price }}</td>
+                    <td>
+                        {{ form.quantity }}
+                        {{ form.id }}
+                    </td>
+                    <td>$ {{ form.instance.total_price|floatformat:2 }}</td>
+                    <td>
+                        <a href="{% url 'chaima_shop:remove_from_cart' form.instance.id %}" class="btn btn-danger btn-sm">X</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- Boutons de soumission à l'intérieur du formulaire -->
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <button type="submit" class="btn btn-black btn-sm btn-block">Mettre à jour le panier</button>
+        </div>
+        <div class="col-md-6">
+            <a href="{% url 'chaima_shop:delete-cart' %}" class="btn btn-outline-black btn-sm btn-block">Supprimer le panier</a>
+        </div>
+    </div>
+</form>
+
               </div>
               <div class="row">
                 <div class="col-md-6">
-                  <div class="row mb-5">
-                    <div class="col-md-6 mb-3 mb-md-0">
-                        <button class="btn btn-black btn-sm btn-block">Mettre à jour le panier</button>
-                    </div>
-                    <div class="col-md-6">
-                      <a href="{% url 'chaima_shop:delete-cart' %}" class="btn btn-outline-black btn-sm btn-block">Supprimer le panier</a>
-                    </div>
-                  </div>
-
+                 <!-- important -->
                 </div>
                 <div class="col-md-6 pl-5">
                   <div class="row justify-content-end">

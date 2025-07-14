@@ -28,6 +28,7 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+		
 
         <div class="collapse navbar-collapse" id="navbarsFurni">
             <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
@@ -48,28 +49,30 @@
                 {% else %}
                     <li><a class="nav-link" href="{% url 'login' %}"><img src="{% static 'images/user.svg' %}">Se connecter</a></li>
                 {% endif %}
-				{% if user.is_authenticated %}
-  {% if user.cart %}
-    <li>
-      <a class="nav-link text-white" href="{% url 'chaima_shop:cart' %}">
-        <img src="{% static 'images/cart.svg' %}" alt="Panier">
-        ({{ user.cart.orders.count }})
-      </a>
-    </li>
-  {% endif %}
-{% else %}
-  {% if cart %}
-    <li>
-      <a class="nav-link text-white" href="{% url 'chaima_shop:cart' %}">
-        <img src="{% static 'images/cart.svg' %}" alt="Panier">
-        ({{ cart.orders.count }})
-      </a>
-    </li>
-  {% endif %}
-{% endif %}
+				
 
             </ul>
         </div>
+		{% if user.is_authenticated %}
+			{% if user.cart %}
+					<li class="test">
+						<a class="nav-link text-white" href="{% url 'chaima_shop:cart' %}">
+							<img src="{% static 'images/cart.svg' %}" alt="Panier">
+							({{ user.cart.orders.count }})
+						</a>
+					</li>
+			{% endif %}
+		{% else %}
+			{% if cart %}
+					<li class="test">
+						<a class="nav-link text-white" href="{% url 'chaima_shop:cart' %}">
+							<img src="{% static 'images/cart.svg' %}" alt="Panier">
+							({{ cart.orders.count }})
+						</a>
+					</li>
+
+			{% endif %}
+		{% endif %}
     </div>
 </nav>
 		<!-- End Header/Navigation -->

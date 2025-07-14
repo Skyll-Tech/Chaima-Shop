@@ -23,7 +23,7 @@ env = environ.Env()
 
 
 
-YOUR_DOMAIN = 'http://localhost:8000'  #### a demander
+YOUR_DOMAIN = 'https://chaima-shop.com'  #### a demander
 
 # Create your views here.
 """
@@ -245,11 +245,6 @@ def remove_from_cart(request, order_id):
 
 
 
-import stripe
-from django.shortcuts import redirect, get_object_or_404
-from django.urls import reverse
-from .models import Cart, Order
-
 def Create_checkout_session(request):
     """
     Crée une session de paiement Stripe pour le panier de l'utilisateur.
@@ -306,14 +301,36 @@ def Create_checkout_session(request):
     ]
 
     # Préparation du dictionnaire des données pour Stripe
+            
     checkout_data = {
         "locale": "fr",
         "line_items": line_items,
         "mode": "payment",
-        "shipping_address_collection": {"allowed_countries": ["FR", "BE", "CM"]},
+        "shipping_address_collection": {"allowed_countries": [
+            "AC", "AD", "AE", "AF", "AG", "AI", "AL", "AM", "AO", "AQ", "AR", "AT",
+            "AU", "AW", "AX", "AZ", "BA", "BB", "BD", "BE", "BF", "BG", "BH", "BI",
+            "BJ", "BL", "BM", "BN", "BO", "BQ", "BR", "BS", "BT", "BV", "BW", "BY",
+            "BZ", "CA", "CD", "CF", "CG", "CH", "CI", "CK", "CL", "CM", "CN", "CO",
+            "CR", "CV", "CW", "CY", "CZ", "DE", "DJ", "DK", "DM", "DO", "DZ", "EC",
+            "EE", "EG", "EH", "ER", "ES", "ET", "FI", "FJ", "FK", "FO", "FR", "GA",
+            "GB", "GD", "GE", "GF", "GG", "GH", "GI", "GL", "GM", "GN", "GP", "GQ",
+            "GR", "GS", "GT", "GU", "GW", "GY", "HK", "HN", "HR", "HT", "HU", "ID",
+            "IE", "IL", "IM", "IN", "IO", "IQ", "IS", "IT", "JE", "JM", "JO", "JP",
+            "KE", "KG", "KH", "KI", "KM", "KN", "KR", "KW", "KY", "KZ", "LA", "LB",
+            "LC", "LI", "LK", "LR", "LS", "LT", "LU", "LV", "LY", "MA", "MC", "MD",
+            "ME", "MF", "MG", "MK", "ML", "MM", "MN", "MO", "MQ", "MR", "MS", "MT",
+            "MU", "MV", "MW", "MX", "MY", "MZ", "NA", "NC", "NE", "NG", "NI", "NL",
+            "NO", "NP", "NR", "NU", "NZ", "OM", "PA", "PE", "PF", "PG", "PH", "PK",
+            "PL", "PM", "PN", "PR", "PS", "PT", "PY", "QA", "RE", "RO", "RS", "RU",
+            "RW", "SA", "SB", "SC", "SD", "SE", "SG", "SH", "SI", "SJ", "SK", "SL",
+            "SM", "SN", "SO", "SR", "SS", "ST", "SV", "SX", "SZ", "TA", "TC", "TD",
+            "TF", "TG", "TH", "TJ", "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV",
+            "TW", "TZ", "UA", "UG", "US", "UY", "UZ", "VA", "VC", "VE", "VG", "VN",
+            "VU", "WF", "WS", "XK", "YE", "YT", "ZA", "ZM", "ZW", "ZZ"
+        ]},
         # Les URLs de succès et d'annulation doivent être des URLs absolues pour Stripe
         "success_url": request.build_absolute_uri(reverse('chaima_shop:checkout_success')),
-        "cancel_url": "http://127.0.0.1:8000",
+        "cancel_url": "https://chaima-shop.com",
         "metadata": metadata,  # Transmission des métadonnées (notamment pour le panier anonyme)
     }
 
@@ -381,8 +398,6 @@ def Stripe_webhook(request):
     return HttpResponse(status=200)
 
 # pas de requête ici on créer une fonction qui sera retournée dans la vue stripe_webhook
-from django.http import HttpResponse
-from .models import Cart
 
 def complete_order(data, user):
     """

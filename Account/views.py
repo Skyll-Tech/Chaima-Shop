@@ -31,7 +31,7 @@ def Signup(request):
         
         # Tenter de créer l'utilisateur dans un bloc try/except
         try:
-            user = User.objects.create_user(username=email, email=email, password=password)
+            user = User.objects.create_user(email=email, password=password)
         except Exception as e:
             errors.append("Une erreur s'est produite lors de la création de l'utilisateur : " + str(e))
             return render(request, 'client/signup.html', {'errors': errors})
